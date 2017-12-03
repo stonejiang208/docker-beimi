@@ -27,6 +27,14 @@ Beimi (贝密) 是一款开源的棋牌软件，它的技术线路是：前端co
 
 ### 容器镜向脚本
 
+从下载 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+
+jdk-8u151-linux-x64.tar.gz
+
+本想放在github中，后发现文件过大不适合放在代码仓库中。
+
+
+
 ```
 ## file: Dockerfile
 ## ubuntu-java
@@ -106,15 +114,71 @@ ubuntu-java bash
 我们把代码放在/mnt/workspace目录中，也是为了便于修改，不受容器重启的影响 。
 
 代码的结构如下：
+~~~
+222840	./beimi/client
+16	./beimi/data
+12664	./beimi/doc
+16	./beimi/docker
+1328	./beimi/script
+54072	./beimi/src
+635384	./beimi/target
+1264672	./beimi
+~~~
+
+| # | 文件目录                | 描述                             |
+|---|-------------------------|----------------------------------|
+|   | /mnt/workspace/bm/beimi | ./beimi   主目录                 |
+|   | ./beimi/data            | 像是日志写这里的                 |
+|   | ./beimi/doc             | 文档，看看有好处                 |
+|   | ./beimi/docker          | 似乎官方也想用docker，但没有做完 |
+|   | ./beimi/client          | 客户端                           |
+|   | ./beimi/src             | 服务端                           |
+|   | ./beimi/script          | 数据库脚本                       |
+|   | ./beimi/target          | 服务端打包后生成的文件放这里     |
+|   |                         |                                  |
+
 
 其中，数据库的脚本如下，如果是新部署的mysql数据库，需要创建数据库，并导入它。
 
 代码仓库中有一份已导入完成的，想省事可以直接用它。
 
+
+
 ### 导入数据库
 
 为了验证容器的连通性，所以我们在开发机上安装了mysql-client，利用开发机上的mysql 客户端远程（这里通过的是容器互联的方式）连接另一个容器中的mysql。将不同的服务独立部署在不同的容器中符合Docker 的理念。
 
+#### 数据库文件
+```
+/mnt/workspace/bm/beimi/script/beimi.sql
+```
+
+在开发机中，输入 mysql -uroot -p123456 -h mysql
+
+```
+mysql -uroot -p123456 -h mysql
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.7.20 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql>
+```
+
+然后 
+
+```
+create database beimi
+
+source /mnt/workspace/bm/beimi/script/beimi.sql
+```
 
 
 ## 确认环境，并打包生成war包
@@ -146,3 +210,6 @@ mvn package
 ``` bash
 java -Xms1240m -Xmx1240m -Xmn450m -XX:PermSize=512M  -XX:MaxPermSize=512m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+UseTLAB -XX:NewSize=128m -XX:MaxNewSize=128m -XX:MaxTenuringThreshold=0 -XX:SurvivorRatio=1024 -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=60 -Djava.awt.headless=true  -XX:+PrintGCDetails -Xloggc:gc.log -XX:+PrintGCTimeStamps -jar beimi-0.7.0.war
 ```
+
+## 最后附上几运行时的效果图
+
