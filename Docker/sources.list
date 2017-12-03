@@ -1,0 +1,9 @@
+## local ubuntu repo
+deb http://mbp.tao-studio.net:8081/ubuntu/ xenial main restricted
+deb http://mbp.tao-studio.net:8081/ubuntu/ xenial-updates main restricted
+deb http://mbp.tao-studio.net:8081/ubuntu/ xenial universe
+deb http://mbp.tao-studio.net:8081/ubuntu/ xenial-updates universe
+deb http://mbp.tao-studio.net:8081/ubuntu/ xenial multiverse
+deb http://mbp.tao-studio.net:8081/ubuntu/ xenial-updates multiverse
+deb http://mbp.tao-studio.net:8081/ubuntu/ xenial-backports main restricted universe multiverse
+deb http://mbp.tao-studio.net:8081/ubuntu/ xenial-security multiverse
