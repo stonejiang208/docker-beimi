@@ -219,4 +219,5 @@ https://github.com/stonejiang208/docker-beimi
 
 ## 最后附上几运行时的效果图
 
+![avatar](images/0B8A14616506AA09C34B7F0905926DFF.png)
 
